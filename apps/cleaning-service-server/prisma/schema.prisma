@@ -1,0 +1,42 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  message   String?
+  recipient String?
+  sentAt    DateTime?
+}
+
+model CleaningRequest {
+  id          String                     @id @default(cuid())
+  createdAt   DateTime                   @default(now())
+  updatedAt   DateTime                   @updatedAt
+  requestDate DateTime?
+  description String?
+  status      EnumCleaningRequestStatus?
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  firstName String?
+  lastName  String?
+  username  String   @unique
+  email     String?  @unique
+  password  String
+  roles     Json
+}
+
+enum EnumCleaningRequestStatus {
+  Option1
+}
